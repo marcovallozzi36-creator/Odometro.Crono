@@ -584,9 +584,18 @@
     let pathLine = null;
     let lastLatLng = null;
 
-    // Filtros de precisión (modo "odómetro serio")
-    const GOOD_ACCURACY = 15;
-    const OK_ACCURACY = 40;
+    // Filtros de precisión (modo ultra estricto)
+    const GOOD_ACCURACY = 8;   // ideal: <= 8 m
+    const OK_ACCURACY   = 15;  // aceptable: 9 a 15 m
+
+    // Distancia mínima y máxima de un segmento
+    const MIN_SEGMENT_GOOD = 1.5;  // con GPS muy fino
+    const MIN_SEGMENT_OK   = 4;    // con GPS normal
+    const MAX_SEGMENT_M    = 120;  // ignorar saltos demasiado grandes
+
+    // Velocidad mínima para considerar movimiento real (m/s)
+    const MIN_SPEED_MPS_GOOD = 0.4; // ~1.4 km/h
+    const MIN_SPEED_MPS_OK   = 0.8; // ~2.9 km/h
 
     const distanceMetersMainEl = document.getElementById("distanceMetersMain");
     const distanceKmSecondaryEl = document.getElementById("distanceKmSecondary");
@@ -739,7 +748,6 @@
         pathLine.addLatLng(latlng);
       }
 
-      // Seguimiento suave
       map.setView(latlng);
       lastLatLng = latlng;
     }
@@ -801,7 +809,7 @@
     }
 
     // -------------------
-    // Lógica GPS (modo precisión)
+    // Lógica GPS (modo ultra precisión)
     // -------------------
     function handlePosition(pos) {
       const { latitude, longitude, accuracy, speed } = pos.coords;
@@ -822,9 +830,18 @@
         startTime = now;
       }
 
-      // Distancia + filtro
+      // Distancia + filtro ultra estricto
       if (lastPosition) {
         const dt = (now - lastPosition.timestamp) / 1000;
+        if (dt <= 0) {
+          lastPosition = {
+            lat: latitude,
+            lon: longitude,
+            timestamp: now,
+          };
+          return;
+        }
+
         const segment = distanceMeters(
           lastPosition.lat,
           lastPosition.lon,
@@ -833,13 +850,29 @@
         );
         lastSegmentM = segment;
 
+        const mps = segment / dt; // metros por segundo
         let accept = false;
 
         if (gpsAccuracy <= GOOD_ACCURACY) {
-          accept = segment >= 0.8 && segment <= 120 && dt > 0.7;
+          // GPS muy fino
+          if (
+            dt >= 0.8 && dt <= 10 &&
+            segment >= MIN_SEGMENT_GOOD && segment <= MAX_SEGMENT_M &&
+            mps >= MIN_SPEED_MPS_GOOD && mps <= 35
+          ) {
+            accept = true;
+          }
         } else if (gpsAccuracy <= OK_ACCURACY) {
-          accept = segment >= 3 && segment <= 200 && dt > 0.7;
+          // GPS normalito
+          if (
+            dt >= 1 && dt <= 12 &&
+            segment >= MIN_SEGMENT_OK && segment <= MAX_SEGMENT_M &&
+            mps >= MIN_SPEED_MPS_OK && mps <= 35
+          ) {
+            accept = true;
+          }
         } else {
+          // GPS malo: no sumamos distancia
           accept = false;
         }
 
@@ -942,7 +975,6 @@
       lastSegmentM = 0;
       lastLatLng = null;
 
-      // Reset mapa
       if (pathLine) {
         pathLine.setLatLngs([]);
       }
@@ -968,9 +1000,7 @@
       startTime = Date.now();
       lastAccuracyM = 5; // simulamos GPS muy preciso
 
-      // Simulamos una línea en el mapa si existe
       if (!map) {
-        // Centro arbitrario Córdoba
         updateMap(-31.4167, -64.1833);
       }
 
@@ -995,7 +1025,6 @@
         updateSpeedFromSegment(stepDist, 0.5);
         updateUI();
 
-        // Avanzamos un poco en el mapa también
         if (lastLatLng && pathLine) {
           const [lat, lng] = lastLatLng;
           const newLat = lat + 0.00003;
