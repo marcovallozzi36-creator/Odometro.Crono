@@ -18,9 +18,7 @@
       --border: #1f2933;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -44,7 +42,6 @@
       background: radial-gradient(circle at top, #1f2937 0, #020617 60%);
       z-index: 20;
     }
-
     .splash-inner {
       text-align: center;
       padding: 24px 20px;
@@ -55,7 +52,6 @@
       min-width: 260px;
       max-width: 320px;
     }
-
     .splash-title {
       font-size: 1.1rem;
       font-weight: 600;
@@ -65,24 +61,18 @@
       justify-content: center;
       gap: 8px;
     }
-
-    .splash-title span {
-      font-size: 1.4rem;
-    }
-
+    .splash-title span { font-size: 1.4rem; }
     .splash-sub {
       font-size: 0.8rem;
       color: var(--muted);
       margin-bottom: 16px;
     }
-
     .splash-bar-wrap {
       display: flex;
       flex-direction: column;
       gap: 6px;
       align-items: center;
     }
-
     .splash-bar {
       width: 100%;
       height: 10px;
@@ -91,7 +81,6 @@
       border: 1px solid rgba(148,163,184,0.5);
       overflow: hidden;
     }
-
     .splash-bar-fill {
       height: 100%;
       width: 0%;
@@ -99,7 +88,6 @@
       background: linear-gradient(90deg, var(--accent), var(--accent-soft));
       transition: width 0.15s ease-out;
     }
-
     .splash-percent {
       font-size: 0.78rem;
       color: var(--muted);
@@ -109,7 +97,7 @@
       max-width: 480px;
       margin: 0 auto;
       padding: 16px;
-      display: none; /* se muestra cuando termina la carga */
+      display: none;
     }
 
     .card {
@@ -126,15 +114,13 @@
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
-
     .title-wrap {
       display: flex;
       flex-direction: column;
       gap: 2px;
     }
-
     h1 {
       font-size: 1.2rem;
       margin: 0;
@@ -142,11 +128,7 @@
       align-items: center;
       gap: 6px;
     }
-
-    h1 span.emoji {
-      font-size: 1.4rem;
-    }
-
+    h1 span.emoji { font-size: 1.4rem; }
     .subtitle {
       font-size: 0.78rem;
       color: var(--muted);
@@ -163,31 +145,23 @@
       background: rgba(15,23,42,0.8);
       white-space: nowrap;
     }
-
     .status-dot {
       width: 8px;
       height: 8px;
       border-radius: 999px;
       background: var(--danger);
     }
-
-    .status-dot.ok {
-      background: var(--accent);
-    }
-
-    .status-dot.warn {
-      background: var(--warn);
-    }
+    .status-dot.ok { background: var(--accent); }
+    .status-dot.warn { background: var(--warn); }
 
     /* Distancia principal en METROS */
     .main-distance {
-      margin: 10px 0 10px;
+      margin: 8px 0 8px;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
     }
-
     .distance-label {
       font-size: 0.75rem;
       color: var(--muted);
@@ -195,13 +169,11 @@
       letter-spacing: 0.16em;
       margin-bottom: 2px;
     }
-
     .distance-m {
       font-size: 2.7rem;
       font-weight: 700;
       letter-spacing: 0.03em;
     }
-
     .distance-km {
       font-size: 0.9rem;
       color: var(--muted);
@@ -212,9 +184,8 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
-      margin-top: 10px;
+      margin-top: 8px;
     }
-
     .stat-card {
       background: rgba(15,23,42,0.9);
       border-radius: 14px;
@@ -222,7 +193,6 @@
       border: 1px solid rgba(148,163,184,0.25);
       text-align: center;
     }
-
     .stat-label {
       font-size: 0.7rem;
       color: var(--muted);
@@ -230,38 +200,43 @@
       letter-spacing: 0.12em;
       margin-bottom: 2px;
     }
-
     .stat-value {
       font-size: 0.95rem;
       font-weight: 600;
     }
-
-    /* Velocidad más grande y visible */
+    /* Velocidad grande */
     #speed {
       font-size: 1.5rem;
       font-weight: 700;
     }
-
     .stat-sub {
       font-size: 0.7rem;
       color: var(--muted);
       margin-top: 1px;
     }
 
+    /* Debug de precisión */
+    .debug-row {
+      margin-top: 6px;
+      font-size: 0.75rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
     .controls {
-      margin-top: 16px;
+      margin-top: 14px;
       display: flex;
       flex-direction: column;
       gap: 10px;
     }
-
     .btn-row-main {
       display: grid;
       grid-template-columns: 1.5fr 1fr;
       gap: 10px;
       align-items: center;
     }
-
     .big-btn {
       border-radius: 999px;
       border: none;
@@ -277,24 +252,20 @@
       cursor: pointer;
       transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.15s ease;
     }
-
     .big-btn:active {
       transform: scale(0.97);
       box-shadow: 0 8px 20px rgba(0,0,0,0.5) inset;
     }
-
     .btn-primary {
       background: linear-gradient(135deg, var(--accent), var(--accent-soft));
       color: #0f172a;
       box-shadow: 0 10px 25px rgba(34,197,94,0.5);
     }
-
     .btn-primary.paused {
       background: linear-gradient(135deg, #f97316, #ea580c);
       color: #0b1120;
       box-shadow: 0 10px 25px rgba(234,88,12,0.5);
     }
-
     .btn-secondary {
       background: rgba(15,23,42,0.95);
       color: var(--text);
@@ -308,7 +279,6 @@
       grid-template-columns: repeat(2, 1fr);
       gap: 10px;
     }
-
     .btn-ghost {
       border-radius: 999px;
       border: 1px dashed rgba(148,163,184,0.4);
@@ -323,34 +293,22 @@
       cursor: pointer;
       transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease, transform 0.08s ease;
     }
-
-    .btn-ghost:active {
-      transform: scale(0.97);
-    }
-
-    .btn-ghost span.emoji {
-      font-size: 1rem;
-    }
-
-    .btn-debug {
-      width: 100%;
-      margin-top: 4px;
-    }
+    .btn-ghost:active { transform: scale(0.97); }
+    .btn-ghost span.emoji { font-size: 1rem; }
+    .btn-debug { width: 100%; margin-top: 4px; }
 
     /* Puntos de medición */
     .markers {
-      margin-top: 16px;
+      margin-top: 14px;
       padding-top: 10px;
       border-top: 1px dashed rgba(148,163,184,0.4);
     }
-
     .markers-header {
       display: flex;
       flex-direction: column;
       gap: 6px;
       margin-bottom: 6px;
     }
-
     .markers-title {
       font-size: 0.8rem;
       text-transform: uppercase;
@@ -360,10 +318,7 @@
       align-items: center;
       gap: 6px;
     }
-
-    .markers-title span.emoji {
-      font-size: 1rem;
-    }
+    .markers-title span.emoji { font-size: 1rem; }
 
     .marker-btn {
       border-radius: 999px;
@@ -382,7 +337,6 @@
       color: #0b1120;
       box-shadow: 0 10px 26px rgba(248,150,69,0.6);
     }
-
     .marker-btn:active {
       transform: scale(0.98);
       box-shadow: 0 6px 18px rgba(0,0,0,0.7) inset;
@@ -395,7 +349,6 @@
       padding-right: 4px;
       font-size: 0.82rem;
     }
-
     .marker-item {
       display: flex;
       flex-direction: column;
@@ -406,31 +359,26 @@
       border: 1px solid rgba(148,163,184,0.25);
       margin-bottom: 4px;
     }
-
     .marker-line-1 {
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 8px;
     }
-
     .marker-name {
       font-weight: 600;
       font-size: 0.85rem;
     }
-
     .marker-segment {
       font-size: 0.85rem;
       color: var(--accent);
     }
-
     .marker-line-2 {
       display: flex;
       justify-content: space-between;
       font-size: 0.75rem;
       color: var(--muted);
     }
-
     .marker-empty {
       font-size: 0.8rem;
       color: var(--muted);
@@ -444,7 +392,6 @@
       text-align: center;
       opacity: 0.8;
     }
-
     .footer-note strong {
       color: var(--accent);
       font-weight: 500;
@@ -461,9 +408,7 @@
         flex-direction: column;
         justify-content: center;
       }
-      body {
-        background: #020617;
-      }
+      body { background: #020617; }
     }
   </style>
 </head>
@@ -501,7 +446,7 @@
         </div>
       </div>
 
-      <!-- Distancia principal en METROS -->
+      <!-- Distancia principal -->
       <div class="main-distance">
         <div class="distance-label">Distancia</div>
         <div class="distance-m" id="distanceMetersMain">0.0 m</div>
@@ -512,7 +457,7 @@
         <div class="stat-card">
           <div class="stat-label">Tiempo</div>
           <div class="stat-value" id="timeElapsed">00:00:00</div>
-          <div class="stat-sub">Desde que apretaste START</div>
+          <div class="stat-sub">Desde START</div>
         </div>
         <div class="stat-card">
           <div class="stat-label">Velocidad</div>
@@ -524,6 +469,12 @@
           <div class="stat-value" id="pace">–:– min/km</div>
           <div class="stat-sub">Promedio</div>
         </div>
+      </div>
+
+      <!-- Debug precisión -->
+      <div class="debug-row">
+        <span>Precisión GPS: <strong id="gpsAccuracyText">–</strong></span>
+        <span>Último salto: <strong id="lastSegmentText">–</strong></span>
       </div>
 
       <div class="controls">
@@ -572,7 +523,7 @@
       </div>
 
       <div class="footer-note">
-        Recomendado usar <strong>al aire libre</strong> y con <strong>GPS activado</strong> para mejor precisión.
+        Para mayor precisión: usalo <strong>al aire libre</strong>, esperá que el GPS esté en verde y ponelo en <strong>PAUSE</strong> cuando te quedes quieto mucho rato.
       </div>
     </div>
   </div>
@@ -593,10 +544,16 @@
     let markers = [];
     let markerCounter = 0;
 
-    // Filtros anti-GPS loco (más permisivos)
-    const ACCURACY_STRICT = 80;   // aceptamos precisión hasta ~80 m
-    const MIN_SEGMENT_M = 3;      // no contar saltos menores a 3 m
-    const MAX_SEGMENT_M = 300;    // ignorar saltos ridículamente grandes
+    // Debug
+    let lastAccuracyM = null;
+    let lastSegmentM = 0;
+
+    // Filtros de precisión (modo "odómetro serio")
+    // - precisión <= 15 m: contamos casi todo movimiento normal
+    // - precisión 15–40 m: contamos solo saltos más grandecitos
+    // - precisión > 40 m: NO sumamos distancia (GPS muy inestable)
+    const GOOD_ACCURACY = 15;
+    const OK_ACCURACY = 40;
 
     const distanceMetersMainEl = document.getElementById("distanceMetersMain");
     const distanceKmSecondaryEl = document.getElementById("distanceKmSecondary");
@@ -604,7 +561,6 @@
     const speedEl = document.getElementById("speed");
     const paceEl = document.getElementById("pace");
     const speedSourceEl = document.getElementById("speedSource");
-    const statusPill = document.getElementById("statusPill");
     const statusDot = document.getElementById("statusDot");
     const statusText = document.getElementById("statusText");
     const btnStartPause = document.getElementById("btnStartPause");
@@ -614,6 +570,8 @@
     const btnSimulate = document.getElementById("btnSimulate");
     const btnAddMarker = document.getElementById("btnAddMarker");
     const markersListEl = document.getElementById("markersList");
+    const gpsAccuracyTextEl = document.getElementById("gpsAccuracyText");
+    const lastSegmentTextEl = document.getElementById("lastSegmentText");
 
     const splash = document.getElementById("splash");
     const app = document.getElementById("app");
@@ -621,12 +579,12 @@
     const splashPercent = document.getElementById("splashPercent");
 
     // -------------------
-    // Splash / barra de carga
+    // Splash
     // -------------------
     function runSplash() {
       let progress = 0;
       const interval = setInterval(() => {
-        const step = Math.floor(Math.random() * 7) + 3; // 3 a 9
+        const step = Math.floor(Math.random() * 7) + 3;
         progress += step;
         if (progress > 100) progress = 100;
 
@@ -646,7 +604,6 @@
     // -------------------
     // Utils
     // -------------------
-
     function setStatus(mode, text) {
       statusText.textContent = text;
       statusDot.classList.remove("ok", "warn");
@@ -662,9 +619,9 @@
       return `${pad(h)}:${pad(m)}:${pad(s)}`;
     }
 
-    // Haversine: distancia en metros entre dos puntos lat/lon
+    // Haversine
     function distanceMeters(lat1, lon1, lat2, lon2) {
-      const R = 6371000; // radio Tierra en m
+      const R = 6371000;
       const toRad = (x) => x * Math.PI / 180;
 
       const dLat = toRad(lat2 - lat1);
@@ -690,7 +647,7 @@
 
         if (km > 0.01) {
           const minutes = elapsedSec / 60;
-          const pace = minutes / km; // min por km
+          const pace = minutes / km;
           const paceMin = Math.floor(pace);
           const paceSec = Math.floor((pace - paceMin) * 60);
           const pad = (v) => String(v).padStart(2, "0");
@@ -702,13 +659,18 @@
         timeElapsedEl.textContent = "00:00:00";
         paceEl.textContent = "–:– min/km";
       }
+
+      gpsAccuracyTextEl.textContent =
+        lastAccuracyM != null ? `${lastAccuracyM.toFixed(0)} m` : "–";
+      lastSegmentTextEl.textContent =
+        lastSegmentM > 0 ? `${lastSegmentM.toFixed(1)} m` : "–";
     }
 
     function updateSpeedFromSegment(segmentDistM, deltaTimeSec) {
       if (!deltaTimeSec || deltaTimeSec <= 0 || !segmentDistM) return;
       const mPerSec = segmentDistM / deltaTimeSec;
       const kmh = mPerSec * 3.6;
-      if (kmh >= 0 && kmh < 300) { // filtro anti-locuras
+      if (kmh >= 0 && kmh < 300) {
         speedEl.textContent = kmh.toFixed(1) + " km/h";
         speedSourceEl.textContent = "Por segmentos";
       }
@@ -717,7 +679,6 @@
     // -------------------
     // Puntos de medición
     // -------------------
-
     function renderMarkers() {
       if (!markers.length) {
         markersListEl.innerHTML = `
@@ -765,60 +726,64 @@
         id: markerCounter,
         totalM,
         segmentM,
-        time: timeStr
+        time: timeStr,
       });
 
       renderMarkers();
     }
 
     // -------------------
-    // Lógica GPS
+    // Lógica GPS (modo precisión)
     // -------------------
-
     function handlePosition(pos) {
       const { latitude, longitude, accuracy, speed } = pos.coords;
       const now = Date.now();
       const gpsAccuracy = (typeof accuracy === "number") ? accuracy : 999;
+      lastAccuracyM = gpsAccuracy;
 
       // Estado según precisión
-      if (gpsAccuracy > ACCURACY_STRICT) {
-        setStatus("warn", `GPS inestable (~${gpsAccuracy.toFixed(0)} m)`);
+      if (gpsAccuracy <= GOOD_ACCURACY) {
+        setStatus("ok", `GPS preciso (~${gpsAccuracy.toFixed(0)} m)`);
+      } else if (gpsAccuracy <= OK_ACCURACY) {
+        setStatus("warn", `GPS aceptable (~${gpsAccuracy.toFixed(0)} m)`);
       } else {
-        setStatus("ok", "GPS activo");
+        setStatus("warn", `GPS inestable (> ${OK_ACCURACY} m)`);
       }
 
       if (!startTime) {
         startTime = now;
       }
 
-      // Distancia real solo si ya teníamos un punto anterior
       if (lastPosition) {
         const dt = (now - lastPosition.timestamp) / 1000;
-
         const segment = distanceMeters(
           lastPosition.lat,
           lastPosition.lon,
           latitude,
           longitude
         );
+        lastSegmentM = segment;
 
-        // Filtro anti ruido:
-        // - precisión aceptable
-        // - no contar saltos menores a MIN_SEGMENT_M
-        // - ni mayores a MAX_SEGMENT_M (saltos locos)
-        // - delta tiempo razonable
-        if (
-          gpsAccuracy <= ACCURACY_STRICT &&
-          segment >= MIN_SEGMENT_M &&
-          segment < MAX_SEGMENT_M &&
-          dt > 0.5
-        ) {
+        let accept = false;
+
+        if (gpsAccuracy <= GOOD_ACCURACY) {
+          // GPS fino: aceptamos casi todo movimiento real
+          accept = segment >= 0.8 && segment <= 120 && dt > 0.7;
+        } else if (gpsAccuracy <= OK_ACCURACY) {
+          // GPS normalito: solo sumamos saltos más claros
+          accept = segment >= 3 && segment <= 200 && dt > 0.7;
+        } else {
+          // GPS muy malo: no sumamos, solo actualizamos posición
+          accept = false;
+        }
+
+        if (accept) {
           totalDistanceM += segment;
           updateSpeedFromSegment(segment, dt);
         }
       }
 
-      // Si el dispositivo da speed directa (m/s), usamos eso
+      // Velocidad directa del GPS (si viene)
       if (speed !== null && typeof speed === "number" && speed >= 0) {
         const kmh = speed * 3.6;
         if (kmh >= 0 && kmh < 300) {
@@ -827,7 +792,6 @@
         }
       }
 
-      // Siempre actualizamos última posición para no acumular un salto enorme después
       lastPosition = {
         lat: latitude,
         lon: longitude,
@@ -905,6 +869,8 @@
       startTime = null;
       markers = [];
       markerCounter = 0;
+      lastAccuracyM = null;
+      lastSegmentM = 0;
       updateUI();
       speedEl.textContent = "0.0 km/h";
       speedSourceEl.textContent = "Esperando movimiento…";
@@ -913,9 +879,8 @@
     }
 
     // -------------------
-    // Simulación de movimiento (para testear sin GPS)
+    // Simulación (sin GPS)
     // -------------------
-
     function runDemoSimulation() {
       if (tracking || watchId !== null) {
         alert("Pausá el odómetro antes de usar la simulación.");
@@ -925,12 +890,12 @@
       resetAll();
       setStatus("ok", "Simulación de prueba");
       startTime = Date.now();
+      lastAccuracyM = 5; // simulamos GPS muy preciso
 
       let steps = 0;
-      const totalSteps = 20; // 20 pasos
-      const stepDist = 3;    // 3 metros por paso (~60 m)
+      const totalSteps = 20;
+      const stepDist = 3;
 
-      // Aseguramos que el timer de UI esté andando
       if (!timerInterval) {
         timerInterval = setInterval(() => {
           if (startTime) {
@@ -944,7 +909,8 @@
       const simInterval = setInterval(() => {
         steps++;
         totalDistanceM += stepDist;
-        updateSpeedFromSegment(stepDist, 0.5); // segmentito rápido
+        lastSegmentM = stepDist;
+        updateSpeedFromSegment(stepDist, 0.5);
         updateUI();
 
         if (steps >= totalSteps) {
@@ -957,7 +923,6 @@
     // -------------------
     // Pantalla completa
     // -------------------
-
     function toggleFullscreen() {
       const doc = document;
       const elem = document.documentElement;
@@ -979,9 +944,8 @@
     }
 
     // -------------------
-    // Bloqueo táctil "modo barra espaciadora"
+    // Bloqueo táctil
     // -------------------
-
     function toggleTouchLock() {
       touchLocked = !touchLocked;
       if (touchLocked) {
@@ -993,11 +957,9 @@
       }
     }
 
-    // Interceptor de clicks cuando está bloqueado
     document.addEventListener("click", (e) => {
       if (!touchLocked) return;
       const target = e.target;
-      // Permitimos solo el botón START/PAUSE y el de Bloqueo
       if (
         target === btnStartPause ||
         target.closest("#btnStartPause") ||
@@ -1011,38 +973,18 @@
     }, true);
 
     // -------------------
-    // Eventos de UI
+    // Eventos UI
     // -------------------
-
     btnStartPause.addEventListener("click", () => {
-      if (tracking) {
-        stopTracking();
-      } else {
-        startTracking();
-      }
+      if (tracking) stopTracking(); else startTracking();
     });
-
     btnReset.addEventListener("click", () => {
-      if (confirm("¿Seguro que querés resetear todo el recorrido?")) {
-        resetAll();
-      }
+      if (confirm("¿Seguro que querés resetear todo el recorrido?")) resetAll();
     });
-
-    btnFullscreen.addEventListener("click", () => {
-      toggleFullscreen();
-    });
-
-    btnLock.addEventListener("click", () => {
-      toggleTouchLock();
-    });
-
-    btnSimulate.addEventListener("click", () => {
-      runDemoSimulation();
-    });
-
-    btnAddMarker.addEventListener("click", () => {
-      addMarker();
-    });
+    btnFullscreen.addEventListener("click", toggleFullscreen);
+    btnLock.addEventListener("click", toggleTouchLock);
+    btnSimulate.addEventListener("click", runDemoSimulation);
+    btnAddMarker.addEventListener("click", addMarker);
 
     // Estado inicial
     setStatus("warn", "Listo para iniciar");
@@ -1050,10 +992,7 @@
     updateUI();
     renderMarkers();
 
-    // Lanzamos el splash cuando carga la página
-    document.addEventListener("DOMContentLoaded", () => {
-      runSplash();
-    });
+    document.addEventListener("DOMContentLoaded", runSplash);
   </script>
 </body>
 </html>
