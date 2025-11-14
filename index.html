@@ -218,7 +218,6 @@
       font-size: 0.95rem;
       font-weight: 600;
     }
-    /* Velocidad grande */
     #speed {
       font-size: 1.5rem;
       font-weight: 700;
@@ -583,17 +582,16 @@
     let map = null;
     let pathLine = null;
     let lastLatLng = null;
+    let markerLayer = null; // capa para las postas
 
     // Filtros de precisión (modo ultra estricto)
     const GOOD_ACCURACY = 8;   // ideal: <= 8 m
     const OK_ACCURACY   = 15;  // aceptable: 9 a 15 m
 
-    // Distancia mínima y máxima de un segmento
     const MIN_SEGMENT_GOOD = 1.5;  // con GPS muy fino
     const MIN_SEGMENT_OK   = 4;    // con GPS normal
     const MAX_SEGMENT_M    = 120;  // ignorar saltos demasiado grandes
 
-    // Velocidad mínima para considerar movimiento real (m/s)
     const MIN_SPEED_MPS_GOOD = 0.4; // ~1.4 km/h
     const MIN_SPEED_MPS_OK   = 0.8; // ~2.9 km/h
 
@@ -726,16 +724,25 @@
 
       if (!map) {
         map = L.map("map").setView(latlng, 17);
-        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-          maxZoom: 19,
-          attribution: "© OpenStreetMap",
-        }).addTo(map);
+
+        // Satélite (Esri)
+        L.tileLayer(
+          "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+          {
+            maxZoom: 19,
+            attribution: "Tiles © Esri — Source: Esri, Earthstar Geographics, and the GIS User Community",
+          }
+        ).addTo(map);
 
         pathLine = L.polyline([], {
           color: "#22c55e",
           weight: 4,
         }).addTo(map);
 
+        // capa para las postas
+        markerLayer = L.layerGroup().addTo(map);
+
+        // primer punto (posición inicial)
         L.circleMarker(latlng, {
           radius: 6,
           color: "#22c55e",
@@ -753,7 +760,7 @@
     }
 
     // -------------------
-    // Puntos de medición
+    // Puntos de medición (postas)
     // -------------------
     function renderMarkers() {
       if (!markers.length) {
@@ -798,14 +805,33 @@
       });
 
       markerCounter++;
-      markers.push({
+      const markerData = {
         id: markerCounter,
         totalM,
         segmentM,
         time: timeStr,
-      });
-
+      };
+      markers.push(markerData);
       renderMarkers();
+
+      // Marcar posta en el mapa
+      if (map && markerLayer && lastLatLng) {
+        const labelTotal = totalM.toFixed(1);
+        const labelSeg = segmentM.toFixed(1);
+
+        L.circleMarker(lastLatLng, {
+          radius: 7,
+          color: "#f97316",
+          fillColor: "#f97316",
+          fillOpacity: 0.95,
+        })
+        .addTo(markerLayer)
+        .bindPopup(
+          `Punto ${markerData.id}<br>` +
+          `Tramo: ${labelSeg} m<br>` +
+          `Total: ${labelTotal} m`
+        );
+      }
     }
 
     // -------------------
@@ -978,6 +1004,9 @@
       if (pathLine) {
         pathLine.setLatLngs([]);
       }
+      if (markerLayer) {
+        markerLayer.clearLayers();
+      }
 
       updateUI();
       speedEl.textContent = "0.0 km/h";
@@ -1001,7 +1030,7 @@
       lastAccuracyM = 5; // simulamos GPS muy preciso
 
       if (!map) {
-        updateMap(-31.4167, -64.1833);
+        updateMap(-31.4167, -64.1833); // Córdoba
       }
 
       let steps = 0;
