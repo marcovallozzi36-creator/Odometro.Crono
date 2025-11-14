@@ -4,6 +4,20 @@
   <meta charset="UTF-8" />
   <title>📏 Odómetro GPS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Leaflet (mapa tipo Google Maps, sin API key) -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+
   <style>
     :root {
       --bg: #020617;
@@ -215,7 +229,7 @@
       margin-top: 1px;
     }
 
-    /* Debug de precisión */
+    /* Debug precisión */
     .debug-row {
       margin-top: 6px;
       font-size: 0.75rem;
@@ -223,6 +237,18 @@
       display: flex;
       justify-content: space-between;
       gap: 8px;
+    }
+
+    /* Mapa */
+    .map-wrap {
+      margin-top: 10px;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.3);
+    }
+    #map {
+      width: 100%;
+      height: 230px;
     }
 
     .controls {
@@ -477,6 +503,11 @@
         <span>Último salto: <strong id="lastSegmentText">–</strong></span>
       </div>
 
+      <!-- Mapa -->
+      <div class="map-wrap">
+        <div id="map"></div>
+      </div>
+
       <div class="controls">
         <div class="btn-row-main">
           <button id="btnStartPause" class="big-btn btn-primary">
@@ -548,10 +579,12 @@
     let lastAccuracyM = null;
     let lastSegmentM = 0;
 
+    // Mapa (Leaflet)
+    let map = null;
+    let pathLine = null;
+    let lastLatLng = null;
+
     // Filtros de precisión (modo "odómetro serio")
-    // - precisión <= 15 m: contamos casi todo movimiento normal
-    // - precisión 15–40 m: contamos solo saltos más grandecitos
-    // - precisión > 40 m: NO sumamos distancia (GPS muy inestable)
     const GOOD_ACCURACY = 15;
     const OK_ACCURACY = 40;
 
@@ -677,6 +710,41 @@
     }
 
     // -------------------
+    // Mapa
+    // -------------------
+    function updateMap(lat, lng) {
+      const latlng = [lat, lng];
+
+      if (!map) {
+        map = L.map("map").setView(latlng, 17);
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          maxZoom: 19,
+          attribution: "© OpenStreetMap",
+        }).addTo(map);
+
+        pathLine = L.polyline([], {
+          color: "#22c55e",
+          weight: 4,
+        }).addTo(map);
+
+        L.circleMarker(latlng, {
+          radius: 6,
+          color: "#22c55e",
+          fillColor: "#22c55e",
+          fillOpacity: 0.9,
+        }).addTo(map);
+      }
+
+      if (pathLine) {
+        pathLine.addLatLng(latlng);
+      }
+
+      // Seguimiento suave
+      map.setView(latlng);
+      lastLatLng = latlng;
+    }
+
+    // -------------------
     // Puntos de medición
     // -------------------
     function renderMarkers() {
@@ -754,6 +822,7 @@
         startTime = now;
       }
 
+      // Distancia + filtro
       if (lastPosition) {
         const dt = (now - lastPosition.timestamp) / 1000;
         const segment = distanceMeters(
@@ -767,13 +836,10 @@
         let accept = false;
 
         if (gpsAccuracy <= GOOD_ACCURACY) {
-          // GPS fino: aceptamos casi todo movimiento real
           accept = segment >= 0.8 && segment <= 120 && dt > 0.7;
         } else if (gpsAccuracy <= OK_ACCURACY) {
-          // GPS normalito: solo sumamos saltos más claros
           accept = segment >= 3 && segment <= 200 && dt > 0.7;
         } else {
-          // GPS muy malo: no sumamos, solo actualizamos posición
           accept = false;
         }
 
@@ -797,6 +863,9 @@
         lon: longitude,
         timestamp: now,
       };
+
+      // Actualizar mapa
+      updateMap(latitude, longitude);
 
       updateUI();
     }
@@ -871,6 +940,13 @@
       markerCounter = 0;
       lastAccuracyM = null;
       lastSegmentM = 0;
+      lastLatLng = null;
+
+      // Reset mapa
+      if (pathLine) {
+        pathLine.setLatLngs([]);
+      }
+
       updateUI();
       speedEl.textContent = "0.0 km/h";
       speedSourceEl.textContent = "Esperando movimiento…";
@@ -892,6 +968,12 @@
       startTime = Date.now();
       lastAccuracyM = 5; // simulamos GPS muy preciso
 
+      // Simulamos una línea en el mapa si existe
+      if (!map) {
+        // Centro arbitrario Córdoba
+        updateMap(-31.4167, -64.1833);
+      }
+
       let steps = 0;
       const totalSteps = 20;
       const stepDist = 3;
@@ -912,6 +994,14 @@
         lastSegmentM = stepDist;
         updateSpeedFromSegment(stepDist, 0.5);
         updateUI();
+
+        // Avanzamos un poco en el mapa también
+        if (lastLatLng && pathLine) {
+          const [lat, lng] = lastLatLng;
+          const newLat = lat + 0.00003;
+          const newLng = lng + 0.00003;
+          updateMap(newLat, newLng);
+        }
 
         if (steps >= totalSteps) {
           clearInterval(simInterval);
